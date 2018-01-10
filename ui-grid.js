@@ -6274,18 +6274,24 @@ angular.module('ui.grid')
       if(filter.term) {
         if(typeof filter.term == 'object') {
           for(var key in filter.term) {
-            /* For objects, a default value is settable like for example a slider as a filter
-             * filter: {
-             sliderOptions: { ...
-             },
-             term: {
-             min: 0,
-             max: 999,
-             minDefaultAfterClearFilter: 0,
-             maxDefaultAfterClearFilter: 999
-             },
-             *
-             * */
+
+              /*
+               When resetting the filters of a column, sometmes it's necessary to not set them back to 'undefined',
+               but to a certain default value, which is provided by the progammer.
+               An example might be a slider element as a filter. Here, we want to have, for example, values of 0 as lower and 999 as upper value
+
+               So, for this example, we might pass values like so:
+               filter: {
+                    sliderOptions: { ...
+                    },
+                    term: {
+                        min: 0,
+                        max: 999,
+                        minDefaultAfterClearFilter: 0,
+                        maxDefaultAfterClearFilter: 999
+                    },
+               */
+
 
             /* Do not change default values when reset filters */
             if(_.endsWith(key, 'DefaultAfterClearFilter')) { /* Lodash required at this moment! TODO: Solve when using for projects without lodash */
