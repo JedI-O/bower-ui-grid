@@ -20264,11 +20264,15 @@ module.filter('px', function() {
          *  @propertyOf  ui.grid.grouping.api:ColumnDef
          *  @description Show the aggregation menu on this column
          *  <br/>Defaults to true.
+         *  if the property 'showNativeAggregations' of the column Definitions is set to false, native aggregations will not be added to the menu,
+         *  if it is undefined or true, native aggregations will be added
          */
         if ( col.colDef.groupingShowAggregationMenu !== false ){
-          angular.forEach(uiGridTreeBaseService.nativeAggregations(), function(aggregationDef, name){
-            addAggregationMenu(name);
-          });
+          if (angular.isUndefined(col.colDef.showNativeAggregations) || col.colDef.showNativeAggregations) {
+            angular.forEach (uiGridTreeBaseService.nativeAggregations (), function (aggregationDef, name) {
+              addAggregationMenu (name);
+            });
+          }
           angular.forEach(gridOptions.treeCustomAggregations, function(aggregationDef, name){
             addAggregationMenu(name, aggregationDef.menuTitle);
           });
