@@ -19714,6 +19714,13 @@ module.filter('px', function() {
             return (field.value ? 'TRUE' : 'FALSE') ;
           }
           if (typeof(field.value) === 'string') {
+
+            // Prevent CSV injections: a user could enter a spreadsheet formula calculation or even a macro, starting with @ = + - . We prevent that by prepending a |
+            var firstLetterInCell = field.value.substr(0,1);
+            if(['@','=','+','-'].indexOf(firstLetterInCell) > -1) {
+               field.value = '| ' + field.value;
+            }
+              
             return '"' + field.value.replace(/"/g,'""') + '"';
           }
 
