@@ -4105,6 +4105,19 @@ angular.module('ui.grid')
      */
     self.api.registerMethod( 'core', 'sortHandleNulls', rowSorter.handleNulls );
 
+    /**
+         * @ngdoc function
+         * @name columnDefsRefreshed
+         * @methodOf ui.grid.core.api:PublicApi
+         * @description
+         * When chaning columnDefs it could happen that hey are not really refreshed. This function allows calling callDataChangeCallbacks from within the api for such cases.
+         */
+    self.api.registerMethod( 'core', 'columnDefsRefreshed', function() {
+            self.callDataChangeCallbacks(uiGridConstants.dataChange.COLUMN, {
+                orderByColumnDefs: true,
+                preCompileCellTemplates: true
+              });
+    });
 
     /**
      * @ngdoc function
@@ -19720,7 +19733,7 @@ module.filter('px', function() {
             if(['@','=','+','-'].indexOf(firstLetterInCell) > -1) {
                field.value = '| ' + field.value;
             }
-              
+
             return '"' + field.value.replace(/"/g,'""') + '"';
           }
 
